@@ -1,184 +1,253 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+/* ========================================
+   1. ESTRUCTURA GENERAL
+   ======================================== */
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
 }
 
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
+.app-container {
     display: flex;
-    padding: 6px 12px;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* ========================================
+   2. CABECERA Y NAVEGACIÓN
+   ======================================== */
+
+.site-header {
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-container {
+    width: min(1120px, calc(100% - 2rem));
+    min-height: 80px;
+    margin-inline: auto;
+
+    display: flex;
     align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
 
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
+.brand-name {
+    color: var(--accent-color);
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+}
 
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
+.navigation-list {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.navigation-list a {
+    color: var(--muted-text-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    transition: color 0.2s ease;
+}
+
+.navigation-list a:hover {
+    color: var(--accent-color);
+}
+
+/* ========================================
+   3. BOTONES DE AUTENTICACIÓN
+   ======================================== */
+
+.authentication-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.login-button,
+.register-button {
+    min-height: 42px;
+    padding: 0.65rem 1rem;
+
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.login-button {
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.login-button:hover {
+    background-color: var(--surface-secondary);
+}
+
+.register-button {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--accent-contrast-color);
+}
+
+.register-button:hover {
+    background-color: var(--accent-hover-color);
+    border-color: var(--accent-hover-color);
+}
+
+/* ========================================
+   4. SECCIÓN PRINCIPAL: HERO
+   ======================================== */
+
+.hero-section {
+    padding: clamp(5rem, 12vw, 9rem) 1.5rem;
+    text-align: center;
+
+    background-color: var(--bg-color);
+}
+
+.hero-container {
+    width: min(760px, 100%);
+    margin-inline: auto;
+}
+
+.hero-title {
+    margin-bottom: 1.5rem;
+
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+}
+
+.hero-description {
+    max-width: 620px;
+    margin: 0 auto 2rem;
+
+    color: var(--muted-text-color);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.8;
+}
+
+.hero-button {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
 
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
+    min-height: 48px;
+    padding: 0.85rem 1.5rem;
 
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+    background-color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+
+    color: var(--accent-contrast-color);
+    font-weight: 700;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.hero-button:hover {
+    background-color: var(--accent-hover-color);
+    border-color: var(--accent-hover-color);
+    transform: translateY(-2px);
 }
 
-.ticks {
-  position: relative;
-  width: 100%;
+/* ========================================
+   5. PIE DE PÁGINA
+   ======================================== */
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
+.site-footer {
+    padding: 1.5rem 1rem;
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
+    background-color: var(--surface-color);
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-container {
+    width: min(1120px, 100%);
+    margin-inline: auto;
+    text-align: center;
+}
+
+.copyright {
+    color: var(--muted-text-color);
+    font-size: 0.875rem;
+}
+
+/* ========================================
+   6. ADAPTACIÓN A MÓVILES
+   ======================================== */
+
+@media (max-width: 900px) {
+    .header-container {
+        padding-block: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .brand {
+        width: 100%;
+        text-align: center;
+    }
+
+    .main-navigation {
+        order: 3;
+        width: 100%;
+    }
+
+    .navigation-list {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem 1.25rem;
+    }
+
+    .authentication-actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation-list {
+        gap: 0.75rem 1rem;
+    }
+
+    .navigation-list a {
+        font-size: 0.875rem;
+    }
+
+    .authentication-actions {
+        width: 100%;
+    }
+
+    .login-button,
+    .register-button {
+        flex: 1;
+        padding-inline: 0.65rem;
+    }
+
+    .hero-section {
+        padding-inline: 1.25rem;
+    }
 }
