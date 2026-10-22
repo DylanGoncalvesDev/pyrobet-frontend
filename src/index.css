@@ -1,23 +1,15 @@
-/* Importamos los estilos generales de la aplicación */
 @import './App.css';
-
-/* ========================================
-   1. VARIABLES DEL MODO CLARO
-   ======================================== */
 
 :root {
     color-scheme: light;
 
-    /* Colores principales */
     --bg-color: #f5f0e6;
     --surface-color: #fffaf2;
     --surface-secondary: #ece4d6;
 
-    /* Textos */
     --text-color: #292e29;
     --muted-text-color: #70766f;
 
-    /* Colores de marca */
     --accent-color: #34754a;
     --accent-hover-color: #285d3a;
     --accent-contrast-color: #ffffff;
@@ -25,29 +17,21 @@
     --secondary-color: #b75e48;
     --gold-color: #c39a43;
 
-    /* Elementos de interfaz */
     --border-color: #ded5c6;
     --shadow-color: rgb(41 46 41 / 8%);
 }
-
-/* ========================================
-   2. VARIABLES DEL MODO OSCURO
-   ======================================== */
 
 @media (prefers-color-scheme: dark) {
     :root {
         color-scheme: dark;
 
-        /* Colores principales */
         --bg-color: #0c121a;
         --surface-color: #141e29;
         --surface-secondary: #1c2a38;
 
-        /* Textos */
         --text-color: #edf2f7;
         --muted-text-color: #a4b1bf;
 
-        /* Colores de marca */
         --accent-color: #48df79;
         --accent-hover-color: #65ed8d;
         --accent-contrast-color: #102016;
@@ -55,15 +39,10 @@
         --secondary-color: #e18a72;
         --gold-color: #e4bd62;
 
-        /* Elementos de interfaz */
         --border-color: #293746;
         --shadow-color: rgb(0 0 0 / 25%);
     }
 }
-
-/* ========================================
-   3. RESETEO BÁSICO
-   ======================================== */
 
 *,
 *::before,
