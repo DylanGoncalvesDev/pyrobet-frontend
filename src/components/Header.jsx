@@ -1,36 +1,46 @@
+import { Link } from 'react-router';
 
 function Header() {
-return (
-<header className="site-header">
-<div className="header-container">
+    return (
+        <header className="site-header">
+            <div className="header-container">
 
-            <div className="brand">
-                <h1 className="brand-name">PyroBet</h1>
+                <div className="brand">
+                    <Link to="/" className="brand-link">
+                        <h1 className="brand-name">PyroBet</h1>
+                    </Link>
+                </div>
+
+                <nav className="main-navigation" aria-label="Navegación principal">
+                    <ul className="navigation-list">
+                        <li>
+                            <Link to="/#inicio">Inicio</Link>
+                        </li>
+                        <li>
+                            <Link to="/#predicciones">Predicciones</Link>
+                        </li>
+                        <li>
+                            <Link to="/#ranking">Ranking</Link>
+                        </li>
+                        <li>
+                            <Link to="/#reglas">Reglas</Link>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div className="authentication-actions">
+                    <Link to="/login" className="login-button">
+                        Iniciar Sesión
+                    </Link>
+
+                    <Link to="/register" className="register-button">
+                        Registrarse
+                    </Link>
+                </div>
+
             </div>
-
-            <nav className="main-navigation" aria-label="Navegación principal">
-                <ul className="navigation-list">
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#predicciones">Predicciones</a></li>
-                    <li><a href="#ranking">Ranking</a></li>
-                    <li><a href="#reglas">Reglas</a></li>
-                </ul>
-            </nav>
-
-            <div className="authentication-actions">
-                <button type="button" className="login-button">
-                    Iniciar Sesión
-                </button>
-
-                <button type="button" className="register-button">
-                    Registrarse
-                </button>
-            </div>
-
-        </div>
-    </header>
-);
-
+        </header>
+    );
 }
 
 export default Header;
