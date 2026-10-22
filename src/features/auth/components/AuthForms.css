@@ -1,7 +1,7 @@
 .auth-page {
+    flex: 1;
     display: grid;
     place-items: center;
-    min-height: 100vh;
     padding: 2rem 1rem;
     background-color: var(--bg-color);
 }

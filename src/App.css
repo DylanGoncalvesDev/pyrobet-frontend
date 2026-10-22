@@ -68,6 +68,10 @@ body {
 .register-button {
     min-height: 42px;
     padding: 0.65rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 
     border: 1px solid var(--border-color);
     border-radius: 8px;

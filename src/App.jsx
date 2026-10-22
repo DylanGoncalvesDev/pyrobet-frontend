@@ -1,40 +1,69 @@
+import { Link, Route, Routes } from 'react-router';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import LoginForm from './features/auth/components/LoginForm';
+import RegisterForm from './features/auth/components/RegisterForm';
 
 function Hero() {
-return (
-<main className="main-content" id="inicio">
-<section className="hero-section">
-<div className="hero-container">
+    return (
+        <main className="main-content" id="inicio">
+            <section className="hero-section" aria-labelledby="hero-title">
+                <div className="hero-container">
 
-                <h2 className="hero-title">
-                    Welcome to PyroBet
-                </h2>
+                    <h2 id="hero-title" className="hero-title">
+                        Welcome to PyroBet
+                    </h2>
 
-                <p className="hero-description">
-                    Your sports prediction platform.
-                    Earn points and dominate the global leaderboard.
-                </p>
+                    <p className="hero-description">
+                        Your sports prediction platform.
+                        Earn points and dominate the global leaderboard.
+                    </p>
 
-                <a href="#predicciones" className="hero-button">
-                    Explore Predictions
-                </a>
+                    <Link to="/#predicciones" className="hero-button">
+                        Explore Predictions
+                    </Link>
 
-            </div>
-        </section>
-    </main>
-);
+                </div>
+            </section>
+        </main>
+    );
+}
 
+function NotFound() {
+    return (
+        <main className="main-content">
+            <section className="hero-section">
+                <div className="hero-container">
+                    <h2 className="hero-title">Page not found</h2>
+
+                    <p className="hero-description">
+                        The page you are looking for does not exist.
+                    </p>
+
+                    <Link to="/" className="hero-button">
+                        Return Home
+                    </Link>
+                </div>
+            </section>
+        </main>
+    );
 }
 
 function App() {
-return (
-<div className="app-container">
-<Header />
-<Hero />
-<Footer />
-</div>
-);
+    return (
+        <div className="app-container">
+            <Header />
+
+            <Routes>
+                <Route path="/" element={<Hero />} />
+                <Route path="/login" element={<LoginForm />} />
+                <Route path="/register" element={<RegisterForm />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+
+            <Footer />
+        </div>
+    );
 }
 
 export default App;
