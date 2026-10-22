@@ -1,0 +1,122 @@
+.auth-page {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-color: var(--bg-color);
+}
+
+.auth-card {
+    width: min(100%, 440px);
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px var(--shadow-color);
+}
+
+.auth-card__header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.auth-card__title {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+}
+
+.auth-card__description {
+    color: var(--muted-text-color);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.auth-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.auth-form__field label {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.auth-form__field input {
+    width: 100%;
+    min-height: 46px;
+    padding: 0.75rem 0.875rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font: inherit;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.auth-form__field input::placeholder {
+    color: var(--muted-text-color);
+    opacity: 0.8;
+}
+
+.auth-form__field input:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    border-color: var(--accent-color);
+}
+
+.auth-submit {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 0.5rem;
+    padding: 0.875rem 1rem;
+    background-color: var(--accent-color);
+    color: var(--accent-contrast-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.auth-submit:hover {
+    background-color: var(--accent-hover-color);
+    border-color: var(--accent-hover-color);
+}
+
+.auth-submit:focus-visible {
+    outline: 3px solid var(--gold-color);
+    outline-offset: 3px;
+}
+
+.auth-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+    .auth-page {
+        padding: 1.25rem 1rem;
+    }
+
+    .auth-card {
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+}
