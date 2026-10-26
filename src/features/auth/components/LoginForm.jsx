@@ -1,6 +1,53 @@
+import { useState } from 'react';
+import { login } from '../../../services/authService';
 import './AuthForms.css';
 
 function LoginForm() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        setError('');
+        setSuccess('');
+        setIsSubmitting(true);
+
+        try {
+            const response = await login(email, password);
+
+            if (!response.token || !response.user) {
+                throw new Error('La respuesta del servidor no contiene el usuario y el token esperados.');
+            }
+
+            localStorage.setItem('pyrobet_token', response.token);
+            localStorage.setItem('pyrobet_user', JSON.stringify(response.user));
+
+            setSuccess(response.message || 'Inicio de sesión correcto.');
+        } catch (error) {
+            const validationErrors = error.response?.data?.errors;
+
+            const validationMessage = validationErrors
+                ? Object.values(validationErrors).flat().join(' ')
+                : '';
+
+            setError(
+                validationMessage ||
+                error.response?.data?.message ||
+                (
+                    error.request
+                        ? 'No se pudo conectar con el servidor. Comprueba que Laravel esté ejecutándose.'
+                        : error.message || 'No se pudo iniciar sesión.'
+                )
+            );
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
+
     return (
         <main className="auth-page">
             <section className="auth-card" aria-labelledby="login-title">
@@ -14,21 +61,19 @@ function LoginForm() {
                     </p>
                 </header>
 
-                <form
-                    className="auth-form"
-                    onSubmit={(event) => event.preventDefault()}
-                >
+                <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="auth-form__field">
-                        <label htmlFor="login-identifier">
-                            Correo electrónico o nombre de usuario
+                        <label htmlFor="login-email">
+                            Correo electrónico
                         </label>
 
                         <input
-                            id="login-identifier"
-                            name="identifier"
-                            type="text"
-                            autoComplete="username"
-                            placeholder="Introduce tu correo o usuario"
+                            id="login-email"
+                            name="email"
+                            type="email"
+                            autoComplete="email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
                             required
                         />
                     </div>
@@ -43,7 +88,9 @@ function LoginForm() {
                             name="password"
                             type="password"
                             autoComplete="current-password"
-                            placeholder="Introduce tu contraseña"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                            minLength={8}
                             required
                         />
                     </div>
@@ -51,9 +98,28 @@ function LoginForm() {
                     <button
                         type="submit"
                         className="auth-submit"
+                        disabled={isSubmitting}
                     >
-                        Iniciar sesión
+                        {isSubmitting ? 'Iniciando sesión...' : 'Iniciar sesión'}
                     </button>
+
+                    {error && (
+                        <p
+                            className="auth-form__message auth-form__message--error"
+                            role="alert"
+                        >
+                            {error}
+                        </p>
+                    )}
+
+                    {success && (
+                        <p
+                            className="auth-form__message auth-form__message--success"
+                            role="status"
+                        >
+                            {success}
+                        </p>
+                    )}
                 </form>
             </section>
         </main>

@@ -110,6 +110,20 @@
     cursor: not-allowed;
 }
 
+.auth-form__message {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.auth-form__message--error {
+    color: var(--secondary-color);
+}
+
+.auth-form__message--success {
+    color: var(--accent-color);
+}
+
 @media (max-width: 480px) {
     .auth-page {
         padding: 1.25rem 1rem;
