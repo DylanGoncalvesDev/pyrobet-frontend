@@ -1,6 +1,68 @@
+import { useState } from 'react';
+import { register } from '../../../services/authService';
 import './AuthForms.css';
 
 function RegisterForm() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    const [secretCode, setSecretCode] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        setError('');
+        setSuccess('');
+
+        if (password !== passwordConfirmation) {
+            setError('Las contraseñas no coinciden.');
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            const response = await register(
+                name,
+                email,
+                password,
+                passwordConfirmation,
+                secretCode || null
+            );
+
+            if (!response.token || !response.user) {
+                throw new Error('La respuesta del servidor no contiene el usuario y el token esperados.');
+            }
+
+            localStorage.setItem('pyrobet_token', response.token);
+            localStorage.setItem('pyrobet_user', JSON.stringify(response.user));
+
+            setSuccess(response.message || 'Registro completado correctamente.');
+        } catch (error) {
+            const validationErrors = error.response?.data?.errors;
+
+            const validationMessage = validationErrors
+                ? Object.values(validationErrors).flat().join(' ')
+                : '';
+
+            setError(
+                validationMessage ||
+                error.response?.data?.message ||
+                (
+                    error.request
+                        ? 'No se pudo conectar con el servidor. Comprueba que Laravel esté ejecutándose.'
+                        : error.message || 'No se pudo completar el registro.'
+                )
+            );
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
+
     return (
         <main className="auth-page">
             <section className="auth-card" aria-labelledby="register-title">
@@ -14,21 +76,19 @@ function RegisterForm() {
                     </p>
                 </header>
 
-                <form
-                    className="auth-form"
-                    onSubmit={(event) => event.preventDefault()}
-                >
+                <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="auth-form__field">
-                        <label htmlFor="register-username">
+                        <label htmlFor="register-name">
                             Nombre de usuario
                         </label>
 
                         <input
-                            id="register-username"
-                            name="username"
+                            id="register-name"
+                            name="name"
                             type="text"
-                            autoComplete="username"
-                            placeholder="Elige un nombre de usuario"
+                            autoComplete="name"
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
                             required
                         />
                     </div>
@@ -43,7 +103,8 @@ function RegisterForm() {
                             name="email"
                             type="email"
                             autoComplete="email"
-                            placeholder="nombre@ejemplo.com"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
                             required
                         />
                     </div>
@@ -58,7 +119,8 @@ function RegisterForm() {
                             name="password"
                             type="password"
                             autoComplete="new-password"
-                            placeholder="Crea una contraseña"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
                             minLength={8}
                             required
                         />
@@ -74,18 +136,53 @@ function RegisterForm() {
                             name="password_confirmation"
                             type="password"
                             autoComplete="new-password"
-                            placeholder="Repite tu contraseña"
+                            value={passwordConfirmation}
+                            onChange={(event) => setPasswordConfirmation(event.target.value)}
                             minLength={8}
                             required
+                        />
+                    </div>
+
+                    <div className="auth-form__field">
+                        <label htmlFor="register-secret-code">
+                            Código de administrador (opcional)
+                        </label>
+
+                        <input
+                            id="register-secret-code"
+                            name="secret_code"
+                            type="password"
+                            autoComplete="off"
+                            value={secretCode}
+                            onChange={(event) => setSecretCode(event.target.value)}
                         />
                     </div>
 
                     <button
                         type="submit"
                         className="auth-submit"
+                        disabled={isSubmitting}
                     >
-                        Registrarse
+                        {isSubmitting ? 'Creando cuenta...' : 'Registrarse'}
                     </button>
+
+                    {error && (
+                        <p
+                            className="auth-form__message auth-form__message--error"
+                            role="alert"
+                        >
+                            {error}
+                        </p>
+                    )}
+
+                    {success && (
+                        <p
+                            className="auth-form__message auth-form__message--success"
+                            role="status"
+                        >
+                            {success}
+                        </p>
+                    )}
                 </form>
             </section>
         </main>
