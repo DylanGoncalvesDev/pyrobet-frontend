@@ -1,10 +1,13 @@
 import { Link } from 'react-router';
+import { useAuth } from '../features/auth/AuthContext';
+import UserProfileMenu from './UserProfileMenu';
 
 function Header() {
+    const { isAuthenticated } = useAuth();
+
     return (
         <header className="site-header">
             <div className="header-container">
-
                 <div className="brand">
                     <Link to="/" className="brand-link">
                         <h1 className="brand-name">PyroBet</h1>
@@ -29,15 +32,20 @@ function Header() {
                 </nav>
 
                 <div className="authentication-actions">
-                    <Link to="/login" className="login-button">
-                        Iniciar Sesión
-                    </Link>
+                    {isAuthenticated ? (
+                        <UserProfileMenu />
+                    ) : (
+                        <>
+                            <Link to="/login" className="login-button">
+                                Iniciar Sesión
+                            </Link>
 
-                    <Link to="/register" className="register-button">
-                        Registrarse
-                    </Link>
+                            <Link to="/register" className="register-button">
+                                Registrarse
+                            </Link>
+                        </>
+                    )}
                 </div>
-
             </div>
         </header>
     );

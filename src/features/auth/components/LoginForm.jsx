@@ -1,32 +1,37 @@
 import { useState } from 'react';
-import { login } from '../../../services/authService';
+import { useNavigate } from 'react-router';
+import { login as loginRequest } from '../../../services/authService';
+import { useAuth } from '../AuthContext';
 import './AuthForms.css';
 
 function LoginForm() {
+    const navigate = useNavigate();
+    const { setSession } = useAuth();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
 
         setError('');
-        setSuccess('');
         setIsSubmitting(true);
 
         try {
-            const response = await login(email, password);
+            const response = await loginRequest(email, password);
 
             if (!response.token || !response.user) {
                 throw new Error('La respuesta del servidor no contiene el usuario y el token esperados.');
             }
 
-            localStorage.setItem('pyrobet_token', response.token);
-            localStorage.setItem('pyrobet_user', JSON.stringify(response.user));
+            setSession({
+                token: response.token,
+                user: response.user
+            });
 
-            setSuccess(response.message || 'Inicio de sesión correcto.');
+            navigate('/', { replace: true });
         } catch (error) {
             const validationErrors = error.response?.data?.errors;
 
@@ -109,15 +114,6 @@ function LoginForm() {
                             role="alert"
                         >
                             {error}
-                        </p>
-                    )}
-
-                    {success && (
-                        <p
-                            className="auth-form__message auth-form__message--success"
-                            role="status"
-                        >
-                            {success}
                         </p>
                     )}
                 </form>
