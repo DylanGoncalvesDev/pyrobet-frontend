@@ -1,14 +1,9 @@
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { useAuth } from '../features/auth/AuthContext';
+import UserProfileMenu from './UserProfileMenu';
 
 function Header() {
-    const navigate = useNavigate();
-    const { user, role, isAuthenticated, logout } = useAuth();
-
-    function handleLogout() {
-        logout();
-        navigate('/', { replace: true });
-    }
+    const { isAuthenticated } = useAuth();
 
     return (
         <header className="site-header">
@@ -38,25 +33,7 @@ function Header() {
 
                 <div className="authentication-actions">
                     {isAuthenticated ? (
-                        <>
-                            <span className="authenticated-user">
-                                {user.name}
-                            </span>
-
-                            {role && (
-                                <span className="authenticated-role">
-                                    {role}
-                                </span>
-                            )}
-
-                            <button
-                                type="button"
-                                className="login-button"
-                                onClick={handleLogout}
-                            >
-                                Cerrar sesión
-                            </button>
-                        </>
+                        <UserProfileMenu />
                     ) : (
                         <>
                             <Link to="/login" className="login-button">
