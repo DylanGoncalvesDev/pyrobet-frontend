@@ -20,6 +20,9 @@ body {
 .site-header {
     background-color: var(--surface-color);
     border-bottom: 1px solid var(--border-color);
+    position: relative;
+    z-index: 1000;
+    overflow: visible;
 }
 
 .header-container {
@@ -31,6 +34,7 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
+    overflow: visible;
 }
 
 .brand-name {

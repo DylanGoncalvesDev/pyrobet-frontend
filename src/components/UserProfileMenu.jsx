@@ -41,8 +41,8 @@ function UserProfileMenu() {
     }, [isOpen]);
 
     function handleLogout() {
-        logout();
         setIsOpen(false);
+        logout();
         navigate('/', { replace: true });
     }
 
@@ -66,48 +66,73 @@ function UserProfileMenu() {
                 </span>
 
                 <span className="profile-menu__chevron" aria-hidden="true">
-                    {isOpen ? '⌃' : '⌄'}
+                    <svg
+                       width="18"
+                       height="18"
+                       viewBox="0 0 24 24"
+                       fill="none"
+                       focusable="false"
+                    >
+                      <path
+                        d="m6 9 6 6 6-6"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                 </span>
             </button>
 
             <div
                 id="profile-menu-dropdown"
-                className="profile-menu__dropdown"
-                hidden={!isOpen}
+                className={`profile-menu__dropdown ${isOpen ? 'is-open' : ''}`}
+                aria-hidden={!isOpen}
+                inert={!isOpen}
             >
                 <div className="profile-menu__identity">
-                    <span className="profile-menu__identity-name">
-                        {displayName}
+                    <span className="profile-menu__identity-avatar" aria-hidden="true">
+                        {avatarLetter}
                     </span>
 
-                    <span className="profile-menu__identity-email">
-                        {user?.email}
-                    </span>
-
-                    {role && (
-                        <span className="profile-menu__identity-role">
-                            {role}
+                    <div className="profile-menu__identity-details">
+                        <span className="profile-menu__identity-name">
+                            {displayName}
                         </span>
-                    )}
+
+                        <span className="profile-menu__identity-email">
+                            {user?.email}
+                        </span>
+
+                        {role && (
+                            <span className="profile-menu__identity-role">
+                                {role}
+                            </span>
+                        )}
+                    </div>
                 </div>
 
                 <div className="profile-menu__divider" />
 
-                <Link
-                    to="/profile"
-                    className="profile-menu__item"
-                    onClick={() => setIsOpen(false)}
-                >
-                    Mi perfil
-                </Link>
+                <nav className="profile-menu__actions" aria-label="Opciones de usuario">
+                    <Link
+                        to="/profile"
+                        className="profile-menu__item"
+                        onClick={() => setIsOpen(false)}
+                    >
+                        <span>Mi perfil</span>
+                        <span className="profile-menu__item-arrow" aria-hidden="true">↗</span>
+                    </Link>
 
-                <button
-                    type="button"
-                    className="profile-menu__item profile-menu__item--danger"
-                    onClick={handleLogout}
-                >
-                    Cerrar sesión
-                </button>
+                    <button
+                        type="button"
+                        className="profile-menu__item profile-menu__item--danger"
+                        onClick={handleLogout}
+                    >
+                        <span>Cerrar sesión</span>
+                        <span className="profile-menu__item-arrow" aria-hidden="true">↗</span>
+                    </button>
+                </nav>
             </div>
         </div>
     );
