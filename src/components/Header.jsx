@@ -1,10 +1,18 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useAuth } from '../features/auth/AuthContext';
 
 function Header() {
+    const navigate = useNavigate();
+    const { user, role, isAuthenticated, logout } = useAuth();
+
+    function handleLogout() {
+        logout();
+        navigate('/', { replace: true });
+    }
+
     return (
         <header className="site-header">
             <div className="header-container">
-
                 <div className="brand">
                     <Link to="/" className="brand-link">
                         <h1 className="brand-name">PyroBet</h1>
@@ -29,15 +37,38 @@ function Header() {
                 </nav>
 
                 <div className="authentication-actions">
-                    <Link to="/login" className="login-button">
-                        Iniciar Sesión
-                    </Link>
+                    {isAuthenticated ? (
+                        <>
+                            <span className="authenticated-user">
+                                {user.name}
+                            </span>
 
-                    <Link to="/register" className="register-button">
-                        Registrarse
-                    </Link>
+                            {role && (
+                                <span className="authenticated-role">
+                                    {role}
+                                </span>
+                            )}
+
+                            <button
+                                type="button"
+                                className="login-button"
+                                onClick={handleLogout}
+                            >
+                                Cerrar sesión
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/login" className="login-button">
+                                Iniciar Sesión
+                            </Link>
+
+                            <Link to="/register" className="register-button">
+                                Registrarse
+                            </Link>
+                        </>
+                    )}
                 </div>
-
             </div>
         </header>
     );

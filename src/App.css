@@ -180,6 +180,18 @@ body {
     font-size: 0.875rem;
 }
 
+.authenticated-user {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.authenticated-role {
+    color: var(--muted-text-color);
+    font-size: 0.8rem;
+    text-transform: capitalize;
+}
+
 @media (max-width: 900px) {
     .header-container {
         padding-block: 1rem;
