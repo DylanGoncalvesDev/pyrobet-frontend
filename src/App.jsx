@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import LoginForm from './features/auth/components/LoginForm';
 import RegisterForm from './features/auth/components/RegisterForm';
 import ProfilePage from './features/profile/ProfilePage';
+import MatchesPage from './features/matches/MatchesPage';
 import { useAuth } from './features/auth/AuthContext';
 
 function Hero() {
@@ -65,9 +66,10 @@ function App() {
             <Header />
 
             <Routes>
-                <Route path="/" element={<Hero />} />
+                <Route path="/" element={<MatchesPage />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />
+                <Route path="/matches" element={<MatchesPage />} />
                 <Route
                     path="/profile"
                     element={
