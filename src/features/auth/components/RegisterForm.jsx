@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { register as registerRequest } from '../../../services/authService';
 import { useAuth } from '../AuthContext';
+import { Link } from 'react-router';
 import './AuthForms.css';
 
 function RegisterForm() {
@@ -180,6 +181,9 @@ function RegisterForm() {
                         </p>
                     )}
                 </form>
+                 <p className="auth-cross-link">
+                    ¿Ya tienes cuenta? <Link to="/login">Inicia sesión aquí</Link>
+                 </p>
             </section>
         </main>
     );
