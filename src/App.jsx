@@ -5,30 +5,9 @@ import LoginForm from './features/auth/components/LoginForm';
 import RegisterForm from './features/auth/components/RegisterForm';
 import ProfilePage from './features/profile/ProfilePage';
 import MatchesPage from './features/matches/MatchesPage';
+import RankingPage from './features/ranking/RankingPage';
+import RulesPage from './features/rules/RulesPage';
 import { useAuth } from './features/auth/AuthContext';
-
-function Hero() {
-    return (
-        <main className="main-content" id="inicio">
-            <section className="hero-section" aria-labelledby="hero-title">
-                <div className="hero-container">
-                    <h2 id="hero-title" className="hero-title">
-                        Welcome to PyroBet
-                    </h2>
-
-                    <p className="hero-description">
-                        Your sports prediction platform.
-                        Earn points and dominate the global leaderboard.
-                    </p>
-
-                    <Link to="/#predicciones" className="hero-button">
-                        Explore Predictions
-                    </Link>
-                </div>
-            </section>
-        </main>
-    );
-}
 
 function NotFound() {
     return (
@@ -67,9 +46,11 @@ function App() {
 
             <Routes>
                 <Route path="/" element={<MatchesPage />} />
+                <Route path="/matches" element={<MatchesPage />} />
+
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />
-                <Route path="/matches" element={<MatchesPage />} />
+
                 <Route
                     path="/profile"
                     element={
@@ -78,6 +59,18 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
+
+                <Route
+                    path="/ranking"
+                    element={
+                        <ProtectedRoute>
+                            <RankingPage />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route path="/rules" element={<RulesPage />} />
+
                 <Route path="*" element={<NotFound />} />
             </Routes>
 

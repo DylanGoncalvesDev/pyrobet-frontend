@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import '../matches.css';
 
 function getLogoUrl(logo) {
     if (!logo) {
@@ -32,35 +33,37 @@ function formatMatchDate(date) {
         return 'Date unavailable';
     }
 
-    return new Intl.DateTimeFormat('es-ES', {
+    return new Intl.DateTimeFormat('en-GB', {
         dateStyle: 'medium',
         timeStyle: 'short'
     }).format(parsedDate);
 }
 
-function TeamDisplay({ team, fallbackName }) {
+function TeamDisplay({ team, fallbackName, side }) {
     const [logoFailed, setLogoFailed] = useState(false);
 
     const name = team?.name ?? fallbackName;
     const logoUrl = getLogoUrl(team?.logo);
 
     return (
-        <div className="match-team">
-            <div className="match-team-logo">
+        <div className={`match-card__team match-card__team--${side}`}>
+            <div className="match-card__crest">
                 {logoUrl && !logoFailed ? (
                     <img
                         src={logoUrl}
-                        alt={name}
+                        alt={`${name} logo`}
                         onError={() => setLogoFailed(true)}
                     />
                 ) : (
-                    <span className="match-team-fallback">
+                    <span className="match-card__initials">
                         {name.slice(0, 2).toUpperCase()}
                     </span>
                 )}
             </div>
 
-            <span className="match-team-name">{name}</span>
+            <span className="match-card__team-name" title={name}>
+                {name}
+            </span>
         </div>
     );
 }
@@ -89,6 +92,7 @@ export default function MatchCard({
     const [awayScore, setAwayScore] = useState('');
     const [formError, setFormError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isPredictionFormOpen, setIsPredictionFormOpen] = useState(false);
 
     const homeTeam = match.home_team ?? match.homeTeam ?? {};
     const awayTeam = match.away_team ?? match.awayTeam ?? {};
@@ -97,17 +101,18 @@ export default function MatchCard({
     const homeTeamName = homeTeam.name ?? 'Home team';
     const awayTeamName = awayTeam.name ?? 'Away team';
 
-    const matchDate = new Date(match.date);
+    const parsedMatchDate = new Date(match.date);
+
     const isFutureMatch =
-        !Number.isNaN(matchDate.getTime()) &&
-        matchDate.getTime() > Date.now();
+        !Number.isNaN(parsedMatchDate.getTime()) &&
+        parsedMatchDate.getTime() > Date.now();
 
     const matchStatus = String(match.status ?? '').toLowerCase();
     const isUpcoming = matchStatus === 'upcoming';
 
     const canPredict =
-        isRegularUser &&
         isAuthenticated &&
+        isRegularUser &&
         isUpcoming &&
         isFutureMatch &&
         !previousPrediction;
@@ -116,6 +121,18 @@ export default function MatchCard({
         !isAuthenticated &&
         isUpcoming &&
         isFutureMatch;
+
+    function togglePredictionForm() {
+        const nextState = !isPredictionFormOpen;
+
+        setIsPredictionFormOpen(nextState);
+        setFormError('');
+
+        if (!nextState) {
+            setHomeScore('');
+            setAwayScore('');
+        }
+    }
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -130,13 +147,15 @@ export default function MatchCard({
         const awayScoreNumber = Number(awayScore);
 
         const validScores =
-            Number.isInteger(homeScoreNumber) &&
-            Number.isInteger(awayScoreNumber) &&
+            Number.isSafeInteger(homeScoreNumber) &&
+            Number.isSafeInteger(awayScoreNumber) &&
             homeScoreNumber >= 0 &&
             awayScoreNumber >= 0;
 
         if (!validScores) {
-            setFormError('Scores must be whole numbers greater than or equal to zero.');
+            setFormError(
+                'Scores must be whole numbers greater than or equal to zero.'
+            );
             return;
         }
 
@@ -160,8 +179,11 @@ export default function MatchCard({
 
             setHomeScore('');
             setAwayScore('');
+            setIsPredictionFormOpen(false);
         } catch {
-            setFormError('The prediction could not be saved. Please try again.');
+            setFormError(
+                'The prediction could not be saved. Please try again.'
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -169,170 +191,195 @@ export default function MatchCard({
 
     return (
         <article className="match-card">
-            <div className="match-card-header">
-                <div className="match-competition">
+            <div className="match-card__meta">
+                <span className="match-card__competition">
                     {competition.name ?? 'Competition'}
-                </div>
+                </span>
 
-                <span className={`match-status match-status-${matchStatus}`}>
+                <span
+                    className={`match-card__status match-card__status--${matchStatus || 'unknown'}`}
+                >
+                    <span className="match-card__status-dot" />
                     {matchStatus || 'Unknown'}
                 </span>
             </div>
 
-            <div className="match-teams">
+            <div className="match-card__matchup">
                 <TeamDisplay
                     team={homeTeam}
                     fallbackName={homeTeamName}
+                    side="home"
                 />
 
-                <span className="match-vs">VS</span>
+                <div className="match-card__versus">
+                    <span>VS</span>
+                </div>
 
                 <TeamDisplay
                     team={awayTeam}
                     fallbackName={awayTeamName}
+                    side="away"
                 />
             </div>
-
-            <div className="match-date">
-                {formatMatchDate(match.date)}
-            </div>
-
-            {match.location && (
-                <div className="match-location">
-                    {match.location}
-                </div>
-            )}
 
             {matchStatus === 'finished' &&
                 match.home_team_score != null &&
                 match.away_team_score != null && (
-                    <div className="match-final-score">
-                        <span>Final score</span>
+                    <div className="match-card__final-score">
+                        <span>Full time</span>
+
                         <strong>
-                            {match.home_team_score} - {match.away_team_score}
+                            {match.home_team_score}
+                            <span>:</span>
+                            {match.away_team_score}
                         </strong>
                     </div>
                 )}
 
-            <div className="prediction-panel">
-                {isAdmin && (
-                    <div className="match-admin-actions">
-                        <button
-                            type="button"
-                            className="admin-button"
-                            onClick={() => onEdit(match)}
-                        >
-                            Edit match
-                        </button>
+            <div className="match-card__details">
+                <div className="match-card__detail">
+                    <span className="match-card__detail-label">
+                        DATE & TIME
+                    </span>
 
-                        <button
-                            type="button"
-                            className="admin-button admin-button-danger"
-                            onClick={() => onDelete(match.id)}
-                        >
-                            Delete match
-                        </button>
+                    <time dateTime={match.date}>
+                        {formatMatchDate(match.date)}
+                    </time>
+                </div>
+
+                {match.location && (
+                    <div className="match-card__detail match-card__detail--location">
+                        <span className="match-card__detail-label">
+                            VENUE
+                        </span>
+
+                        <span>{match.location}</span>
                     </div>
                 )}
+            </div>
 
+            <div className="match-card__actions">
                 {canRegisterAsGuest && (
                     <Link
                         to="/login"
-                        className="guest-prediction-button"
+                        className="match-card__guest-button"
                     >
                         Registrar predicción
                     </Link>
                 )}
 
                 {canPredict && (
-                    <form
-                        className="prediction-form"
-                        onSubmit={handleSubmit}
-                    >
-                        <h3>Your prediction</h3>
-
-                        <div className="prediction-score-fields">
-                            <label className="prediction-score-field">
-                                <span>{homeTeamName}</span>
-
-                                <input
-                                    type="number"
-                                    min="0"
-                                    step="1"
-                                    inputMode="numeric"
-                                    value={homeScore}
-                                    onChange={(event) =>
-                                        setHomeScore(event.target.value)
-                                    }
-                                    aria-label={`${homeTeamName} predicted goals`}
-                                    required
-                                />
-                            </label>
-
-                            <span className="prediction-score-separator">
-                                -
-                            </span>
-
-                            <label className="prediction-score-field">
-                                <span>{awayTeamName}</span>
-
-                                <input
-                                    type="number"
-                                    min="0"
-                                    step="1"
-                                    inputMode="numeric"
-                                    value={awayScore}
-                                    onChange={(event) =>
-                                        setAwayScore(event.target.value)
-                                    }
-                                    aria-label={`${awayTeamName} predicted goals`}
-                                    required
-                                />
-                            </label>
-                        </div>
-
-                        {formError && (
-                            <p className="prediction-form-error" role="alert">
-                                {formError}
-                            </p>
-                        )}
-
+                    <>
                         <button
-                            type="submit"
-                            className="prediction-submit"
-                            disabled={isSubmitting}
+                            type="button"
+                            className="match-card__open-prediction-button"
+                            onClick={togglePredictionForm}
+                            aria-expanded={isPredictionFormOpen}
+                            aria-controls={`prediction-form-${match.id}`}
                         >
-                            {isSubmitting
-                                ? 'Saving prediction...'
-                                : 'Save prediction'}
+                            {isPredictionFormOpen
+                                ? 'Cancelar predicción'
+                                : 'Registrar predicción'}
                         </button>
-                    </form>
+
+                        {isPredictionFormOpen && (
+                            <form
+                                id={`prediction-form-${match.id}`}
+                                className="match-card__prediction-form"
+                                onSubmit={handleSubmit}
+                            >
+                                <h3>Your prediction</h3>
+
+                                <div className="match-card__score-inputs">
+                                    <label className="match-card__score-field">
+                                        <span title={homeTeamName}>
+                                            {homeTeamName}
+                                        </span>
+
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            step="1"
+                                            inputMode="numeric"
+                                            value={homeScore}
+                                            onChange={(event) =>
+                                                setHomeScore(event.target.value)
+                                            }
+                                            aria-label={`${homeTeamName} predicted goals`}
+                                            required
+                                        />
+                                    </label>
+
+                                    <span className="match-card__score-separator">
+                                        :
+                                    </span>
+
+                                    <label className="match-card__score-field">
+                                        <span title={awayTeamName}>
+                                            {awayTeamName}
+                                        </span>
+
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            step="1"
+                                            inputMode="numeric"
+                                            value={awayScore}
+                                            onChange={(event) =>
+                                                setAwayScore(event.target.value)
+                                            }
+                                            aria-label={`${awayTeamName} predicted goals`}
+                                            required
+                                        />
+                                    </label>
+                                </div>
+
+                                {formError && (
+                                    <p
+                                        className="match-card__error"
+                                        role="alert"
+                                    >
+                                        {formError}
+                                    </p>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    className="match-card__submit-button"
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting
+                                        ? 'Saving prediction...'
+                                        : 'Guardar predicción'}
+                                </button>
+                            </form>
+                        )}
+                    </>
                 )}
 
                 {isAuthenticated &&
                     isRegularUser &&
                     previousPrediction && (
-                        <div className="previous-prediction">
-                            <h3>Your registered prediction</h3>
+                        <div className="match-card__saved-prediction">
+                            <span className="match-card__detail-label">
+                                YOUR PREDICTION
+                            </span>
 
-                            <div className="previous-prediction-score">
+                            <strong className="match-card__saved-score">
                                 {previousPrediction.home_score_prediction}
-                                {' - '}
+                                <span>:</span>
                                 {previousPrediction.away_score_prediction}
-                            </div>
+                            </strong>
 
-                            <p>
-                                Status:{' '}
+                            <span>
                                 {getPredictionStatus(previousPrediction.status)}
-                            </p>
+                            </span>
 
                             {previousPrediction.points != null && (
-                                <p>
+                                <span>
                                     Points: {previousPrediction.points}
-                                </p>
+                                </span>
                             )}
-
-                            <p>Your prediction is already registered.</p>
                         </div>
                     )}
 
@@ -340,7 +387,7 @@ export default function MatchCard({
                     isAuthenticated &&
                     !previousPrediction &&
                     !canPredict && (
-                        <p className="prediction-closed-message">
+                        <p className="match-card__notice">
                             Predictions are unavailable for this match.
                         </p>
                     )}
@@ -348,10 +395,30 @@ export default function MatchCard({
                 {!isAuthenticated &&
                     !canRegisterAsGuest &&
                     matchStatus !== 'finished' && (
-                        <p className="prediction-closed-message">
+                        <p className="match-card__notice">
                             Registration for this match is currently unavailable.
                         </p>
                     )}
+
+                {isAdmin && (
+                    <div className="match-card__admin-actions">
+                        <button
+                            type="button"
+                            className="match-card__admin-button"
+                            onClick={() => onEdit(match)}
+                        >
+                            Edit match
+                        </button>
+
+                        <button
+                            type="button"
+                            className="match-card__admin-button match-card__admin-button--danger"
+                            onClick={() => onDelete(match.id)}
+                        >
+                            Delete match
+                        </button>
+                    </div>
+                )}
             </div>
         </article>
     );

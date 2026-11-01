@@ -9,24 +9,42 @@ function Header() {
         <header className="site-header">
             <div className="header-container">
                 <div className="brand">
-                    <Link to="/" className="brand-link">
+                    <Link
+                        to="/"
+                        className="brand-link"
+                        aria-label="PyroBet - Inicio"
+                    >
                         <h1 className="brand-name">PyroBet</h1>
                     </Link>
                 </div>
 
-                <nav className="main-navigation" aria-label="Navegación principal">
+                <nav
+                    className="main-navigation"
+                    aria-label="Navegación principal"
+                >
                     <ul className="navigation-list">
                         <li>
-                            <Link to="/#inicio">Inicio</Link>
+                            <Link to="/">Inicio</Link>
                         </li>
+
+                        {isAuthenticated && (
+                            <li>
+                                <Link to="/#predicciones">
+                                    Mis predicciones
+                                </Link>
+                            </li>
+                        )}
+
+                        {isAuthenticated && (
+                            <li>
+                                <Link to="/ranking">
+                                    Ranking
+                                </Link>
+                            </li>
+                        )}
+
                         <li>
-                            <Link to="/#predicciones">Predicciones</Link>
-                        </li>
-                        <li>
-                            <Link to="/#ranking">Ranking</Link>
-                        </li>
-                        <li>
-                            <Link to="/#reglas">Reglas</Link>
+                            <Link to="/rules">Reglas</Link>
                         </li>
                     </ul>
                 </nav>
@@ -37,7 +55,7 @@ function Header() {
                     ) : (
                         <>
                             <Link to="/login" className="login-button">
-                                Iniciar Sesión
+                                Iniciar sesión
                             </Link>
 
                             <Link to="/register" className="register-button">
