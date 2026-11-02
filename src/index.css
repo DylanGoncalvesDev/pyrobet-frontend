@@ -108,3 +108,29 @@ a {
     outline: 3px solid var(--gold-color);
     outline-offset: 3px;
 }
+
+.auth-cross-link {
+    margin: 1.5rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+    color: var(--text-color, #454545);
+}
+
+.auth-cross-link a {
+    color: var(--accent-color, #cf654b);
+    font-weight: 700;
+    text-decoration: none;
+    text-underline-offset: 4px;
+    transition: color 180ms ease;
+}
+
+.auth-cross-link a:hover {
+    text-decoration: underline;
+}
+
+.auth-cross-link a:focus-visible {
+    outline: 2px solid var(--accent-color, #cf654b);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
