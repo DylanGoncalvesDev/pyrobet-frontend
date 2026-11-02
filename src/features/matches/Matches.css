@@ -606,46 +606,46 @@
     width: min(620px, 100%);
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
-    color: var(--matches-text, #252a34);
-    background: var(--matches-surface, #fffdf9);
-    border: 1px solid var(--matches-border, #e8e1d8);
+    color: var(--text-color);
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     box-shadow: 0 24px 80px rgb(0 0 0 / 25%);
 }
 
-.match-modal-header {
+.match-modal__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
     padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid var(--matches-border, #e8e1d8);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.match-modal-header h2,
-.match-modal-title {
+.match-modal__header h2 {
     margin: 0;
-    color: var(--matches-text, #252a34);
+    color: var(--text-color);
     font-size: 1.3rem;
     font-weight: 850;
 }
 
-.match-modal-close {
+.match-modal__header p {
+    margin: 0.5rem 0 0;
+    color: var(--muted-text-color);
+}
+
+.match-modal__close {
     display: grid;
     place-items: center;
     width: 40px;
     height: 40px;
     flex-shrink: 0;
-    color: var(--matches-text, #252a34);
-    background: var(--matches-panel, #f6f2eb);
-    border: 1px solid var(--matches-border, #e8e1d8);
+    color: var(--text-color);
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     font-size: 1.25rem;
     cursor: pointer;
-}
-
-.match-modal-body {
-    padding: 1.5rem;
 }
 
 .match-modal form {
@@ -655,12 +655,12 @@
     padding: 1.5rem;
 }
 
-.match-modal form label {
+.match-modal .match-field {
     display: flex;
     min-width: 0;
     flex-direction: column;
     gap: 0.45rem;
-    color: var(--matches-text, #252a34);
+    color: var(--text-color);
     font-size: 0.85rem;
     font-weight: 700;
 }
@@ -672,12 +672,17 @@
     min-width: 0;
     min-height: 46px;
     padding: 0.75rem 0.85rem;
-    color: var(--matches-text, #252a34);
-    background: var(--matches-surface, #fffdf9);
-    border: 1px solid var(--matches-border, #e8e1d8);
+    color: var(--text-color);
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     font: inherit;
     font-size: 0.9rem;
+}
+
+.match-modal select option {
+    color: var(--text-color);
+    background: var(--surface-color);
 }
 
 .match-modal textarea {
@@ -688,21 +693,17 @@
 .match-modal input:focus,
 .match-modal select:focus,
 .match-modal textarea:focus {
-    border-color: var(--matches-accent, #c85c43);
-    outline: 2px solid color-mix(
-        in srgb,
-        var(--matches-accent, #c85c43) 20%,
-        transparent
-    );
+    border-color: var(--accent-color);
+    outline: 2px solid color-mix(in srgb, var(--accent-color) 20%, transparent);
 }
 
-.match-modal .match-form-grid {
+.match-form__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
 }
 
-.match-modal .match-form-actions {
+.match-form__actions {
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
@@ -710,10 +711,7 @@
     padding-top: 0.5rem;
 }
 
-.match-modal .match-form-submit,
-.match-modal .match-form-cancel,
-.match-modal button[type="submit"],
-.match-modal button[type="button"] {
+.match-modal .match-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -726,17 +724,16 @@
     cursor: pointer;
 }
 
-.match-modal .match-form-submit,
-.match-modal button[type="submit"] {
-    color: #ffffff;
-    background: var(--matches-accent, #c85c43);
+.match-modal .match-button--primary {
+    color: var(--accent-contrast-color);
+    background: var(--accent-color);
     border: 1px solid transparent;
 }
 
-.match-modal .match-form-cancel {
-    color: var(--matches-text, #252a34);
-    background: var(--matches-panel, #f6f2eb);
-    border: 1px solid var(--matches-border, #e8e1d8);
+.match-modal .match-button--secondary {
+    color: var(--text-color);
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
 }
 
 .match-modal .match-form-error {

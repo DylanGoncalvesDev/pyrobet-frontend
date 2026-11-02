@@ -57,3 +57,18 @@ export async function deleteMatch(id) {
 
     return data;
 }
+
+export async function updatePrediction(id, predictionData) {
+    const { data } = await api.put(
+        `/predictions/${id}`,
+        predictionData
+    );
+
+    return data;
+}
+
+export async function deletePrediction(id) {
+    const { data } = await api.delete(`/predictions/${id}`);
+
+    return data;
+}

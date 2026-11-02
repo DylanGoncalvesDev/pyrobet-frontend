@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../matches.css';
 
 const sports = [
     'american football',
