@@ -7,6 +7,7 @@ import ProfilePage from './features/profile/ProfilePage';
 import MatchesPage from './features/matches/MatchesPage';
 import MyPredictionsPage from './features/predictions/MyPredictionsPage';
 import RankingPage from './features/ranking/RankingPage';
+import RulesPage from './features/rules/RulesPage';
 import AdminPage from './features/admin/AdminPage';
 import { useAuth } from './features/auth/AuthContext';
 
@@ -57,6 +58,7 @@ function App() {
                 <Route path="/matches" element={<MatchesPage />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />
+                <Route path="/rules" element={<RulesPage />} />
 
                 <Route
                     path="/admin"
