@@ -50,12 +50,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<MatchesPage />} />
                 <Route path="/matches" element={<MatchesPage />} />
-
-                <Route path="/login" element={<LoginForm />} />
-                <Route path="/register" element={<RegisterForm />} />
-
-                <Route path="/" element={<Hero />} />
-                <Route path="/matches" element={<MatchesPage />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />
                 <Route path="/rules" element={<RulesPage />} />
