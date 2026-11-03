@@ -37,21 +37,20 @@ function Header() {
                             </li>
                         )}
 
-                       {isAuthenticated && (
-                          <>
+                       {isAuthenticated && !isAdmin && (
                              <li>
                                  <Link to="/my-predictions">
                                      Mis predicciones
                                  </Link>
                              </li>
-
-                             <li>
-                                 <Link to="/ranking">Ranking</Link>
-                             </li>
-                          </>
                        )}
-
-                        <li>
+                            {isAuthenticated && (
+                              <li>
+                                 <Link to="/ranking">Ranking</Link>
+                              </li>
+                            )}
+                            
+                         <li>    
                             <Link to="/rules">Reglas</Link>
                         </li>
                     </ul>
