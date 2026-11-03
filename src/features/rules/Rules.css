@@ -1,0 +1,138 @@
+.rules-page {
+    width: min(1100px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 4rem 0;
+    color: var(--text-color);
+}
+
+.rules-header {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.rules-eyebrow {
+    color: var(--accent-color);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.rules-header h1 {
+    margin: 0.75rem 0;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 850;
+    letter-spacing: -0.05em;
+}
+
+.rules-header p {
+    color: var(--muted-text-color);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.rules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.rule-card {
+    padding: 1.75rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 17px;
+    transition:
+        transform 180ms ease,
+        border-color 180ms ease;
+}
+
+.rule-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-color);
+}
+
+.rule-number {
+    display: inline-flex;
+    margin-bottom: 1.25rem;
+    color: var(--accent-color);
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+}
+
+.rule-card h2 {
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.rule-card p {
+    color: var(--muted-text-color);
+    font-size: 0.92rem;
+    line-height: 1.75;
+}
+
+.rules-cta {
+    margin-top: 3rem;
+    padding: 2.5rem 1.5rem;
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    text-align: center;
+}
+
+.rules-cta h2 {
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+    font-size: 1.5rem;
+}
+
+.rules-cta p {
+    margin-bottom: 1.5rem;
+    color: var(--muted-text-color);
+}
+
+.rules-button {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.25rem;
+    color: var(--accent-contrast-color);
+    background: var(--accent-color);
+    border-radius: 9px;
+    font-weight: 750;
+    text-decoration: none;
+    transition: background-color 180ms ease;
+}
+
+.rules-button:hover {
+    background: var(--accent-hover-color);
+}
+
+@media (max-width: 650px) {
+    .rules-page {
+        padding: 2.5rem 0;
+    }
+
+    .rules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rule-card {
+        padding: 1.35rem;
+    }
+
+    .rules-cta {
+        padding: 2rem 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rule-card,
+    .rules-button {
+        transition: none;
+    }
+}
