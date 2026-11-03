@@ -3,7 +3,11 @@ import { useAuth } from '../features/auth/AuthContext';
 import UserProfileMenu from './UserProfileMenu';
 
 function Header() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, role } = useAuth();
+
+    const isAdmin =
+        isAuthenticated &&
+        String(role ?? '').toLowerCase() === 'admin';
 
     return (
         <header className="site-header">
@@ -27,18 +31,16 @@ function Header() {
                             <Link to="/">Inicio</Link>
                         </li>
 
-                        {isAuthenticated && (
+                        {isAdmin && (
                             <li>
-                                <Link to="/#predicciones">
-                                    Mis predicciones
-                                </Link>
+                                <Link to="/admin">Administración</Link>
                             </li>
                         )}
 
                         {isAuthenticated && (
                             <li>
-                                <Link to="/ranking">
-                                    Ranking
+                                <Link to="/my-predictions">
+                                    Mis predicciones
                                 </Link>
                             </li>
                         )}
