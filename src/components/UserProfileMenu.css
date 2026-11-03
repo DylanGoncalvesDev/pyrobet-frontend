@@ -1,0 +1,278 @@
+.profile-menu {
+    position: relative;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+}
+
+.profile-menu__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 46px;
+    max-width: 250px;
+    padding: 0.3rem 0.85rem 0.3rem 0.35rem;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    font: inherit;
+    cursor: pointer;
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.profile-menu__trigger:hover {
+    background-color: var(--surface-secondary);
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 14px var(--shadow-color);
+}
+
+.profile-menu__trigger:focus-visible {
+    outline: 3px solid var(--gold-color);
+    outline-offset: 3px;
+}
+
+.profile-menu__avatar,
+.profile-menu__identity-avatar {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    aspect-ratio: 1;
+    background: linear-gradient(
+        135deg,
+        var(--accent-color),
+        var(--accent-hover-color)
+    );
+    color: var(--accent-contrast-color);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.profile-menu__avatar {
+    width: 36px;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.profile-menu__name {
+    max-width: 150px;
+    overflow: hidden;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-menu__chevron {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    color: var(--muted-text-color);
+}
+
+.profile-menu__chevron svg {
+    display: block;
+    transition:
+    transform 220ms ease,
+    color 180ms ease;
+}
+
+.profile-menu__trigger[aria-expanded="true"] .profile-menu__chevron svg {
+    color: var(--accent-color);
+    transform: rotate(180deg);
+}
+
+.profile-menu__dropdown {
+    position: absolute;
+    z-index: 1100;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    width: min(320px, calc(100vw - 2rem));
+    padding: 0.55rem;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    box-shadow:
+        0 24px 60px var(--shadow-color),
+        0 4px 14px var(--shadow-color);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px) scale(0.985);
+    transform-origin: top right;
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease,
+        visibility 0s linear 180ms;
+}
+
+.profile-menu__dropdown.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease,
+        visibility 0s linear 0s;
+}
+
+.profile-menu__identity {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1rem;
+    background-color: var(--surface-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 13px;
+}
+
+.profile-menu__identity-avatar {
+    width: 48px;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.profile-menu__identity-details {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+}
+
+.profile-menu__identity-name {
+    max-width: 100%;
+    color: var(--text-color);
+    font-size: 0.98rem;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+.profile-menu__identity-email {
+    max-width: 100%;
+    color: var(--muted-text-color);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.profile-menu__identity-role {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0.15rem;
+    padding: 0.25rem 0.6rem;
+    background-color: var(--surface-color);
+    color: var(--accent-color);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 750;
+    text-transform: capitalize;
+}
+
+.profile-menu__divider {
+    height: 1px;
+    margin: 0.65rem 0.5rem;
+    background-color: var(--border-color);
+}
+
+.profile-menu__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.profile-menu__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    min-height: 46px;
+    padding: 0.75rem 0.9rem;
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color 160ms ease,
+        color 160ms ease,
+        border-color 160ms ease;
+}
+
+.profile-menu__item:hover {
+    background-color: var(--surface-secondary);
+    color: var(--accent-color);
+}
+
+.profile-menu__item:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: -2px;
+}
+
+.profile-menu__item--danger {
+    color: var(--secondary-color);
+}
+
+.profile-menu__item--danger:hover {
+    background-color: var(--surface-secondary);
+    color: var(--secondary-color);
+    border-color: var(--border-color);
+}
+
+.profile-menu__item-arrow {
+    flex-shrink: 0;
+    color: var(--muted-text-color);
+    font-size: 1rem;
+    opacity: 0.75;
+    transition:
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+.profile-menu__item:hover .profile-menu__item-arrow {
+    color: currentColor;
+    transform: translate(2px, -2px);
+}
+
+@media (max-width: 480px) {
+    .profile-menu__trigger {
+        max-width: 200px;
+    }
+
+    .profile-menu__name {
+        max-width: 105px;
+    }
+
+    .profile-menu__dropdown {
+        width: min(300px, calc(100vw - 1.5rem));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .profile-menu__trigger,
+    .profile-menu__chevron svg {
+        transition: none;
+    }
+    .profile-menu__dropdown,
+    .profile-menu__item,
+    .profile-menu__item-arrow {
+        transition: none;
+    }
+}
