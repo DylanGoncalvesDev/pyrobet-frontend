@@ -6,6 +6,7 @@ import RegisterForm from './features/auth/components/RegisterForm';
 import ProfilePage from './features/profile/ProfilePage';
 import MatchesPage from './features/matches/MatchesPage';
 import MyPredictionsPage from './features/predictions/MyPredictionsPage';
+import RankingPage from './features/ranking/RankingPage';
 import RulesPage from './features/rules/RulesPage';
 import AdminPage from './features/admin/AdminPage';
 import { useAuth } from './features/auth/AuthContext';
@@ -84,6 +85,15 @@ function App() {
                             <MyPredictionsPage />
                         </ProtectedRoute>
                     }
+                />
+
+                <Route
+                   path="/ranking"
+                   element={
+                      <ProtectedRoute>
+                         <RankingPage />
+                      </ProtectedRoute>
+                   }
                 />
 
                 <Route path="*" element={<NotFound />} />
